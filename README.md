@@ -29,9 +29,6 @@
 pip install vgamepad keyboard
 ```
 
-## 檔案結構
-
-* `AFKgame.py`：掛機腳本核心程式。
 
 ## 安裝與使用教學
 
