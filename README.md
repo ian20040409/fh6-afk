@@ -32,7 +32,7 @@ pip install vgamepad keyboard
 ## 檔案結構
 
 * `AFKgame.py`：掛機腳本核心程式。
-* `RunAFK.ps1`：PowerShell 自動化啟動與環境建置腳本 (可選用)。
+
 
 ## 安裝與使用教學
 
