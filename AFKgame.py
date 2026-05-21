@@ -29,6 +29,10 @@ STARTUP_DURATION = max(0.0, input_startup_sec)
 input_startup_rt = input_float("請輸入「起步防滑」期間的油門力道（0 到 100，預設 50）：", 50.0)
 STARTUP_RT_VALUE = max(0.0, min(1.0, input_startup_rt / 100.0))
 
+# 油門加速度設定（線性增加）
+input_rt_accel = input_float("請輸入油門加速度（%/秒，預設 50，輸入 0 關閉線性加速）：", 50.0)
+RT_ACCELERATION = max(0.0, min(1.0, input_rt_accel / 100.0))  # 轉換為 0-1 範圍
+
 # 防掛機設定
 input_rt_release = input_float("請輸入「放開油門」間隔秒數（預設 15.0，輸入 0 關閉）：", 15.0)
 RT_RELEASE_INTERVAL = max(0.0, input_rt_release)
@@ -50,6 +54,7 @@ state_lock = threading.RLock()
 current_rt = -1
 last_rt_release_time = 0.0
 next_rt_interval = RT_RELEASE_INTERVAL
+actual_rt = 0.0  # 實際油門值（用於線性加速）
 
 def set_rt(rt_val: float):
     global current_rt
@@ -72,6 +77,7 @@ print("掛機正式啟動！(請確保您目前在遊戲畫面內)")
 now_perf = time.perf_counter()
 session_start_time = now_perf
 last_rt_release_time = now_perf
+last_accel_time = now_perf  # 用於追踪油門加速時間
 startup_phase_printed = False
 normal_phase_printed = False
 
@@ -98,14 +104,31 @@ try:
             print("防掛機機制：放開油門 (" + time_str + ")")
             
             # 放開油門
-            set_rt(0.0) 
+            set_rt(0.0)
+            actual_rt = 0.0  # 重置實際油門值
             time.sleep(random.uniform(0.1, 0.3))
             
             last_rt_release_time = time.perf_counter()
+            last_accel_time = time.perf_counter()  # 重置加速計時
             next_rt_interval = max(5.0, random.uniform(RT_RELEASE_INTERVAL - 2.0, RT_RELEASE_INTERVAL + 2.0))
         else:
-            # 正常執行目標油門狀態
-            set_rt(target_rt)
+            # 線性加速邏輯
+            if RT_ACCELERATION > 0 and actual_rt < target_rt:
+                # 計算時間差並增加油門
+                time_delta = now - last_accel_time
+                actual_rt += RT_ACCELERATION * time_delta
+                
+                # 不能超過目標油門值
+                if actual_rt > target_rt:
+                    actual_rt = target_rt
+                
+                last_accel_time = now
+            else:
+                # 如果關閉線性加速或已達目標，直接使用目標油門
+                actual_rt = target_rt
+            
+            # 正常執行實際油門狀態
+            set_rt(actual_rt)
 
         time.sleep(LOOP_INTERVAL)
 
