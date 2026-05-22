@@ -40,6 +40,9 @@ pip install vgamepad keyboard
 ```bash
 powershell -ExecutionPolicy Bypass -File .\RunAFK.ps1
 ```
+```bash
+Set-ExecutionPolicy Bypass -Scope Process
+```
 
 ### 方法二：手動執行
 
