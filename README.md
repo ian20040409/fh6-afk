@@ -37,6 +37,9 @@ pip install vgamepad keyboard
 1. 將 `AFKgame.py` 與 `RunAFK.ps1` 下載並放置於電腦上的同一個資料夾內。
 2. 在 `RunAFK.ps1` 檔案上點擊滑鼠右鍵，選擇「用 PowerShell 執行」。
 3. 若系統跳出使用者帳戶控制 (UAC) 提示，請選擇「是」以允許系統管理員權限。腳本將自動為您安裝所需套件並啟動程式。
+```bash
+powershell -ExecutionPolicy Bypass -File .\RunAFK.ps1
+```
 
 ### 方法二：手動執行
 
