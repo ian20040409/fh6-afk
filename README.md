@@ -1,5 +1,7 @@
 # Forza Horizon AFK Script
 
+[English README](READMEEN.md)
+
 這是一款專為 Forza Horizon 系列開發的 Python 自動掛機輔助腳本。透過模擬虛擬 Xbox 控制器，提供高度穩定的自動油門控制，並內建起步防滑與防掛機偵測機制，確保長時間掛機的穩定性與安全性。<br>
 https://youtube.com/live/bFRetrKjcRw
 <br><br>
@@ -90,4 +92,3 @@ Set-ExecutionPolicy Bypass -Scope Process
 | **損壞與輪胎損耗** | 外觀 | 避免長時間進行長途賽事（如歌利亞環道）導致車輛性能下降而無法完賽。 |
 | **倒轉** | 關閉 | 掛機時不會用到此功能，且更改此選項 **並不會** 影響 CR 獎勵加成。 |
 | **起跑控制** | 開啟 | 進一步輔助起步時的穩定度。 |
-
